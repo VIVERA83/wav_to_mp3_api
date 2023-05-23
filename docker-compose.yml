@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  wav_to_mp3_api:
+    container_name: wav_to_mp3_api
+    build:
+      context: .
+      dockerfile: dockerfile_wav_to_mp3
+    ports:
+      - ${PORT}:${PORT}
+    env_file:
+      - .env
+    command: bash -c "
+      alembic upgrade head
+      && uvicorn main:app --host ${HOST} --port ${PORT} --workers ${UVICORN_WORKERS}
+      "
+    depends_on:
+      - postgres_wav_to_mp3
+
+
+  postgres_wav_to_mp3:
+    container_name: postgres_wav_to_mp3
+    image: postgres:13-alpine3.15
+    volumes:
+      - postgres_volume_wav_to_mp3:/var/lib/postgresql/data/
+    env_file:
+      - .env
+
+volumes:
+  postgres_volume_wav_to_mp3:
+
