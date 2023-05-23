@@ -4,7 +4,6 @@ from typing import Any
 from auth.schemes import UserSchemaIn, UserSchemaOut
 from core.components import Request
 from fastapi import APIRouter
-from icecream import ic
 
 auth_route = APIRouter()
 
@@ -20,5 +19,5 @@ auth_route = APIRouter()
 )
 async def create_user(request: "Request", user: UserSchemaIn) -> Any:
     """Создать пользователя."""
-    from uuid import uuid4
-    return UserSchemaOut(id=uuid4(), token=uuid4())
+    new_user = await request.app.store.auth.create_user(**user.dict())
+    return UserSchemaOut(user_name=new_user.user_name, email=new_user.email, id=new_user.id, token=new_user.token)

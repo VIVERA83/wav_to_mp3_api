@@ -1,16 +1,16 @@
 """First migration
 
-Revision ID: eaabea408ca6
+Revision ID: e42762e71e27
 Revises: 
-Create Date: 2023-05-23 21:37:36.013931
+Create Date: 2023-05-23 22:09:31.857655
 
 """
-from alembic import op
 import sqlalchemy as sa
 import sqlalchemy_utils
+from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = 'eaabea408ca6'
+revision = 'e42762e71e27'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -35,7 +35,7 @@ def upgrade() -> None:
     sa.Column('create_date', sa.TIMESTAMP(), nullable=True),
     sa.Column('modified_date', sa.TIMESTAMP(), nullable=True),
     sa.PrimaryKeyConstraint('id', 'token'),
-    sa.UniqueConstraint('user_name'),
+    sa.UniqueConstraint('email'),
     schema='wav_to_mp3'
     )
     # ### end Alembic commands ###

@@ -1,24 +1,23 @@
-"""Schemas сервиса Victorina."""
-from datetime import datetime
+"""Schemas сервиса Convertor."""
 
-from fastapi import Query
-from pydantic import BaseModel, Field
-
-query_number: int = Query(
-    description="Количество возвращаемых ответов."
-    "ограничение не более 100 за запрос.",
-    ge=1,
-    lt=100,
-    title="Количество ответов",
-    example=2,
-)
+from pydantic import BaseModel, Field, HttpUrl
+from uuid import UUID
 
 
-class QuestionSchema(BaseModel):
-    id: int = Field(
-        description="уникальный `id` вопроса, задается автоматически",
-        title="Id вопроса",
+class AudioSchemaIn(BaseModel):
+    user_id: UUID = Field(
+        title="Уникальный индификатор пользователя",
+        example="a17b2315-5bb8-40d3-8d8a-2d48b6c3144e"
     )
-    question: str = Field(description="Развернутое описание вопроса", title="Вопрос")
-    answer: str = Field(description="Ответ на вопрос", title="Ответ")
-    created_at: datetime = Field(description="Дата созжания вопроса", title="Дата")
+    token: UUID = Field(
+        title="token пользователя",
+        example="a17b2315-5bb8-40d3-8d8a-2d48b6c3144e"
+    )
+    audio: bytes = Field(
+        title="Аудио фаил в формате wav"
+    )
+
+
+class DownloadLink(BaseModel):
+    url: HttpUrl = Field(title="Ссылка",
+                         description="Ссылка на скачивания файла в формате mp3")

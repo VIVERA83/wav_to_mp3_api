@@ -2,7 +2,7 @@
 from datetime import datetime
 from uuid import uuid4
 
-from sqlalchemy import TIMESTAMP, Column, String, LargeBinary
+from sqlalchemy import TIMESTAMP, Column, LargeBinary, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped
 from store.database.database import Base
