@@ -18,6 +18,6 @@ class AudioSchemaIn(BaseModel):
     )
 
 
-class DownloadLink(BaseModel):
+class DownloadLinkSchema(BaseModel):
     url: HttpUrl = Field(title="Ссылка",
                          description="Ссылка на скачивания файла в формате mp3")

@@ -44,3 +44,8 @@ class Settings(BaseSettings):
         env_nested_delimiter = "__"
         env_file = BASE_DIR + "/.env"
         enf_file_encoding = "utf-8"
+
+    @property
+    def base_url(self) -> str:
+        """Начальный url адрес приложения."""
+        return f"http://{self.host}:{self.port}/"
