@@ -12,6 +12,7 @@ class BaseUserSchema(BaseModel):
 
 class UserSchemaIn(BaseUserSchema):
     """Schema пользователя при регистрации."""
+
     ...
 
 
@@ -21,6 +22,8 @@ class UserSchemaOut(BaseUserSchema):
         title="Id пользователя",
         example="a17b2315-5bb8-40d3-8d8a-2d48b6c3144e",
     )
-    token: UUID = Field(description="токен пользователя, задается автоматически",
-                        title="token пользователя",
-                        example="a17b2315-5bb8-40d3-8d8a-2d48b6c3144e", )
+    token: UUID = Field(
+        description="токен пользователя, задается автоматически",
+        title="token пользователя",
+        example="a17b2315-5bb8-40d3-8d8a-2d48b6c3144e",
+    )

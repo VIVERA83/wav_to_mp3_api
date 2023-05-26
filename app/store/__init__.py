@@ -13,8 +13,8 @@ class Store:
     Инициализация источников данных."""
 
     def __init__(self, app: "Application"):
-        from store.auth.accessor import AuthAccessor
         from store.audio.accessor import AudioAccessor
+        from store.auth.accessor import AuthAccessor
 
         self.auth = AuthAccessor(app)
         self.audio = AudioAccessor(app)

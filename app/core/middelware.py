@@ -6,7 +6,6 @@ from fastapi import status
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
-from http import HTTPStatus
 
 if TYPE_CHECKING:
     from core.components import Application, Request
@@ -41,23 +40,6 @@ class ErrorHandlingMiddleware(BaseHTTPMiddleware):
             return JSONResponse(content=content, status_code=status_code)
 
 
-class ErrorContentLengthMiddleware(BaseHTTPMiddleware):
-    """Проверка на размер получаемого Request."""
-
-    async def dispatch(self, request: "Request", call_next: RequestResponseEndpoint):
-        """Проверка на допустимый размер запроса.
-
-        Макисальный размер на получаемый контент указыветсяв в настройках Settings."""
-
-        max_size = request.app.settings.content_length + 300  # на служебные данные
-        if max_size < int(request.headers.get('Content-Length')):
-            return JSONResponse(content={"detail": "Request Entity Too Large",
-                                         "message": "Too large file to upload, maximum size 1MB", },
-                                status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE)
-        return await call_next(request)
-
-
 def setup_middleware(app: "Application"):
     """Настройка потключаемый Middleware."""
     app.add_middleware(ErrorHandlingMiddleware)
-    app.add_middleware(ErrorContentLengthMiddleware)

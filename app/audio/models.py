@@ -10,6 +10,7 @@ from store.database.database import Base
 
 class Mp3Model(Base):
     """Модель, Mp3."""
+
     __tablename__ = "mp3"  # noqa
 
     id: Mapped[uuid4] = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)

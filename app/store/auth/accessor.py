@@ -7,10 +7,14 @@ class AuthAccessor(BaseAccessor):
     async def create_user(self, user_name: str, email: str) -> UserModel:
         """Добавление нового поьзователя в БД"""
         async with self.app.database.session.begin().session as session:
-            smtp = insert(UserModel).values(
-                user_name=user_name,
-                email=email,
-            ).returning(UserModel)
+            smtp = (
+                insert(UserModel)
+                .values(
+                    user_name=user_name,
+                    email=email,
+                )
+                .returning(UserModel)
+            )
             user = await session.execute(smtp)
             await session.commit()
             return user.fetchone()[0]
