@@ -37,6 +37,7 @@ class Settings(BaseSettings):
     logging: Log
     host: str
     port: int
+    content_length: int = 1024 * 1024  # 1Mb
 
     class Config:
         """Настройки для чтения переменных окружения из файла."""
