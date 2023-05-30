@@ -10,5 +10,5 @@ def setup_routes(app: "Application"):
     from audio.views import convertor_route
     from auth.views import auth_route
 
-    app.include_router(convertor_route)
     app.include_router(auth_route)
+    app.include_router(convertor_route)

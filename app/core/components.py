@@ -27,3 +27,5 @@ class Request(FastAPIRequest):
     Для корректной подскзки IDE по методам `Application`."""
 
     app: Optional["Application"] = None
+    user_id: Optional[str] = None
+    token: Optional[str] = None

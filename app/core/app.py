@@ -15,6 +15,7 @@ def setup_app() -> "Application":
     app.settings = Settings()
     setup_logging(app)
     setup_middleware(app)
+
     setup_exception(app)
     setup_routes(app)
     setup_store(app)

@@ -19,6 +19,7 @@ class UserModel(Base):
     id: Mapped[uuid4] = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     user_name: Mapped[str] = Column(String(100), nullable=False)
     email: Mapped[str] = Column(EmailType, nullable=False, unique=True)
+    password: Mapped[str] = Column(String, nullable=False)
     token: Mapped[uuid4] = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     create_date: Mapped[datetime] = Column(TIMESTAMP, default=datetime.now())
     modified_date: Mapped[datetime] = Column(TIMESTAMP, default=datetime.now())

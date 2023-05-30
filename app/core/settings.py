@@ -38,6 +38,7 @@ class Settings(BaseSettings):
     host: str
     port: int
     size_wav_file: int = 1024 * 1024  # 1Mb
+    secret_key: str
 
     class Config:
         """Настройки для чтения переменных окружения из файла."""
