@@ -26,7 +26,7 @@ def upgrade() -> None:
         sa.Column("create_date", sa.TIMESTAMP(), nullable=True),
         sa.Column("user_id", sa.UUID(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
-        schema="wav_to_mp3",
+        schema="wav_to_mp3_api",
     )
     op.create_table(
         "users",
@@ -41,7 +41,7 @@ def upgrade() -> None:
         sa.Column("modified_date", sa.TIMESTAMP(), nullable=True),
         sa.PrimaryKeyConstraint("id", "token"),
         sa.UniqueConstraint("email"),
-        schema="wav_to_mp3",
+        schema="wav_to_mp3_api",
     )
     # ### end Alembic commands ###
 
