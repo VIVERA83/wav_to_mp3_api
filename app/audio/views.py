@@ -39,12 +39,14 @@ async def add_audio(request: "Request", file: UploadFile) -> Any:
     response_model=None,
 )
 async def get_audio(
-        request: "Request", audio_id: UUID4 = audio_id_query, user_id: UUID4 = user_id_query
+    request: "Request", audio_id: UUID4 = audio_id_query, user_id: UUID4 = user_id_query
 ) -> Any:
     """Скачать mp3 audio."""
     if data := await request.app.store.audio.get_audio(audio_id, user_id):
         headers = {"Content-Disposition": f"attachment; filename={data.file_name}"}
-        return StreamingResponse(content=io.BytesIO(data.mp3), media_type="audio/mp3", headers=headers)
+        return StreamingResponse(
+            content=io.BytesIO(data.mp3), media_type="audio/mp3", headers=headers
+        )
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Audio recording not found: id={audio_id} user_id={user_id} ",

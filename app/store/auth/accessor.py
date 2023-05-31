@@ -3,12 +3,11 @@ from uuid import UUID
 from auth.models import UserModel
 from base.base_accessor import BaseAccessor
 from sqlalchemy import insert, select
-from icecream import ic
+
 
 class AuthAccessor(BaseAccessor):
     async def create_user(self, user_name: str, email: str, password: str) -> UserModel:
         """Добавление нового поьзователя в БД"""
-        ic(self.app.settings.postgres.dsn)
         async with self.app.database.session.begin().session as session:
             smtp = (
                 insert(UserModel)

@@ -32,10 +32,10 @@ class UserSchemaRegistration(BaseUserSchema):
         cls, password_confirmation: SecretStr, values: dict[str, Any]
     ) -> str:  # noqa cls
         """Проверка пароля на совпадение."""
-        if (
-            sha256(password_confirmation.get_secret_value().encode("utf-8")).hexdigest()
-            != values["password"]
-        ):
+        password = sha256(
+            password_confirmation.get_secret_value().encode("utf-8")
+        ).hexdigest()
+        if password != values["password"]:
             raise ValueError("passwords do not match")
         return password_confirmation
 

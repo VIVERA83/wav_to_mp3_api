@@ -4,12 +4,12 @@ from asyncio import get_event_loop
 from concurrent import futures
 from typing import Any, Callable, Iterable, Type
 
+import filetype
 from core.components import Request
 from core.settings import Settings
 from fastapi import File
 from pydub import AudioSegment
 from starlette.datastructures import UploadFile as StarletteUploadFile
-import filetype
 
 
 class UploadFile(StarletteUploadFile):
@@ -29,15 +29,18 @@ class UploadFile(StarletteUploadFile):
             raise ValueError(f"Expected UploadFile, received: {type(file)}")
 
         if file.size > Settings().size_wav_file:
+            max_size = Settings().size_wav_file // 1024 // 1024
             raise ValueError(
-                f"Too large file to upload, maximum size {Settings().size_wav_file // 1024 // 1024} Mb: {file.size}"
+                f"Too large file to upload, maximum size {max_size} MB"
             )
 
         if type_file := filetype.guess(file.file):
-            if type_file.extension == 'wav':
+            if type_file.extension == "wav":
                 return file
-            raise ValueError(f"Invalid file type: {type_file.extension}. The `wav` type is expected.")
-        raise ValueError(f"Unknown file type")
+            raise ValueError(
+                f"Invalid file type: {type_file.extension}. The `wav` type is expected."
+            )
+        raise ValueError("Unknown file type")
 
     @classmethod
     def __modify_schema__(cls, field_schema: dict[str, Any]) -> None:
@@ -57,7 +60,9 @@ async def convert(file: UploadFile) -> bytes:
 
     Операция по коныертации запускается в отдельном процессе."""
     with futures.ProcessPoolExecutor() as pool:
-        return await get_event_loop().run_in_executor(pool, _convert, io.BytesIO(await file.read()))
+        return await get_event_loop().run_in_executor(
+            pool, _convert, io.BytesIO(await file.read())
+        )
 
 
 def _convert(file: io.BytesIO) -> bytes:
