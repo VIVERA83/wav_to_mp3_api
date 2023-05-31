@@ -2,12 +2,7 @@
 
 from typing import Any
 
-from auth.schemes import (
-    OkSchema,
-    UserSchemaLogin,
-    UserSchemaOut,
-    UserSchemaRegistration,
-)
+from auth.schemes import OkSchema, UserSchemaLogin, UserSchemaOut, UserSchemaRegistration
 from auth.utils import update_session
 from core.components import Request
 from fastapi import APIRouter, HTTPException, status

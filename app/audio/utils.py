@@ -30,9 +30,7 @@ class UploadFile(StarletteUploadFile):
 
         if file.size > Settings().size_wav_file:
             max_size = Settings().size_wav_file // 1024 // 1024
-            raise ValueError(
-                f"Too large file to upload, maximum size {max_size} MB"
-            )
+            raise ValueError(f"Too large file to upload, maximum size {max_size} MB")
 
         if type_file := filetype.guess(file.file):
             if type_file.extension == "wav":

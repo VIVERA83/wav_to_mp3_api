@@ -1,13 +1,13 @@
 FROM python:3.11.0-slim-buster
+RUN apt-get -y update
+RUN apt-get -y upgrade
+RUN apt-get install -y ffmpeg
 WORKDIR wav_to_mp3_api
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV LOGGING__LEVEL="INFO"
 ENV HOST="0.0.0.0"
 ENV PORT="8000"
-#1Mb
-ENV SIZE_WAV_FILE="1048576"
-ENV SECRET_KEY="hello world"
 ENV UVICORN_WORKERS=3
 ENV UVICORN_ARGS "main:app --host ${HOST} --port ${PORT} --workers ${UVICORN_WORKERS}"
 ENV POSTGRES__DB=""
@@ -15,14 +15,11 @@ ENV POSTGRES__USER=""
 ENV POSTGRES__PASSWORD=""
 ENV POSTGRES__HOST="host.docker.internal"
 ENV POSTGRES__PORT=5432
-# Уснтановка необходимых зависимостей для работы с аудио файлами
-RUN apt-get -y update
-RUN apt-get -y upgrade
-RUN apt-get install -y ffmpeg
-# установка приложения
+ENV SIZE_WAV_FILE="1048576"
+ENV SECRET_KEY="hello world"
+
 RUN pip install --upgrade pip  --no-cache-dir
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY app .
 CMD uvicorn $UVICORN_ARGS
-

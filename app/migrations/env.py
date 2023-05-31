@@ -2,6 +2,7 @@ import asyncio
 from logging.config import fileConfig
 
 from alembic import context
+from base.utils import before_execution
 from core.settings import Settings
 from sqlalchemy import pool, text
 from sqlalchemy.engine import Connection
@@ -48,6 +49,7 @@ def do_run_migrations(connection: Connection) -> None:
         context.run_migrations()
 
 
+@before_execution(total_timeout=60)
 async def run_async_migrations() -> None:
     """In this scenario we need to create an Engine
     and associate a connection with the context.
