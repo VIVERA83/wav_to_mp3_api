@@ -9,6 +9,7 @@ from core.settings import Settings
 from fastapi import File
 from pydub import AudioSegment
 from starlette.datastructures import UploadFile as StarletteUploadFile
+import filetype
 
 
 class UploadFile(StarletteUploadFile):
@@ -18,16 +19,25 @@ class UploadFile(StarletteUploadFile):
 
     @classmethod
     def validate(cls: Type["UploadFile"], file: File) -> Any:
-        """Проверка на допустимый размер файла."""
-        print(1)
+        """Проверка файла.
+
+        1. Проверка типа переменной file.
+        2. Проверка на допустимый размер файла Settings().size_wav_file.
+        3. Проверка тип фала (mine) на соответствие wav."""
+
         if not isinstance(file, StarletteUploadFile):
             raise ValueError(f"Expected UploadFile, received: {type(file)}")
 
         if file.size > Settings().size_wav_file:
             raise ValueError(
-                f"Too large file to upload, maximum size 1 Mb: {file.size}"
+                f"Too large file to upload, maximum size {Settings().size_wav_file // 1024 // 1024} Mb: {file.size}"
             )
-        return file
+
+        if type_file := filetype.guess(file.file):
+            if type_file.extension == 'wav':
+                return file
+            raise ValueError(f"Invalid file type: {type_file.extension}. The `wav` type is expected.")
+        raise ValueError(f"Unknown file type")
 
     @classmethod
     def __modify_schema__(cls, field_schema: dict[str, Any]) -> None:

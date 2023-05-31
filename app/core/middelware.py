@@ -49,7 +49,6 @@ class AuthorizationMiddleware(BaseHTTPMiddleware):
         self, request: "Request", call_next: RequestResponseEndpoint
     ) -> Response:
         """Проверка прав доступа к запрашевоемумо ресурсу."""
-        print("Dispatch")
         # доступ для всех
         free_access = [
             "/openapi.json",

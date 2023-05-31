@@ -1,8 +1,6 @@
 import io
 from typing import Any
 
-from icecream import ic
-
 from audio.schemes import DownloadLinkSchema, audio_id_query, user_id_query
 from audio.utils import UploadFile, convert, create_download_url
 from core.components import Request
