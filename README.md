@@ -50,7 +50,7 @@ SECRET_KEY=hello world
 POSTGRES__DB=test_db
 POSTGRES__USER=test_user
 POSTGRES__PASSWORD=pass
-POSTGRES__HOST=postgres  #хост берется как имя сервиса в docker-compose.
+POSTGRES__HOST=postgres_wav_to_mp3  #хост берется как имя сервиса в docker-compose.
 POSTGRES__PORT=5432
 POSTGRES__DB_SCHEMA=wav_to_mp3_api
 
